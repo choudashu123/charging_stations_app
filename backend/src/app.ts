@@ -4,8 +4,21 @@ import authRoutes from './routes/auth.routes';
 import chargerRoutes from './routes/charger.routes';
 import { setupSwagger } from "./utils/swagger";
 
+const allowedOrigins = [
+    'http://localhost:5173',
+    process.env.FRONTEND_ORIGIN
+];
 const app = express()
-app.use(cors())
+app.use(cors({
+    origin: (origin, callback) => {
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
+    credentials: true,
+}))
 app.use(express.json());
 
 app.use('/api/auth', authRoutes);
