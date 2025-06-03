@@ -4,6 +4,7 @@ import ChargingStation from '../models/ChargingStation';
 // create a new station
 export const createChargingStation = async (req: Request, res: Response) => {
     try {
+        console.log(req.body)
         const newStation = await ChargingStation.create(req.body)
         res.status(201).json(newStation);
     } catch (err) {

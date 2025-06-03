@@ -6,12 +6,13 @@ import User from '../models/User'
 const JWT_SECRET = process.env.JWT_SECRET || 'changeme';
 
 export const register = async (req: Request, res: Response) => {
+    console.log(req.body)
     const { username, email, password } = req.body;
     try {
         const existing = await User.findOne({ email });
-        if (existing){
+        if (existing) {
             res.status(400).json({ msg: "Email already exists" });
-            return 
+            return
         }
 
         const hashed = await bcrypt.hash(password, 10)
@@ -23,23 +24,32 @@ export const register = async (req: Request, res: Response) => {
     }
 }
 
-export const login = async (req: Request, res:Response) => {
+export const login = async (req: Request, res: Response) => {
+    console.log(req.body)
     const { email, password } = req.body;
     try {
         const user = await User.findOne({ email })
-        if (!user){
-            res.status(400).json({ msg: "Email not found"});
+        if (!user) {
+            res.status(400).json({ msg: "Email not found" });
             return
         }
         const isMatch = await bcrypt.compare(password, user.password);
 
-        if (!isMatch){
+        if (!isMatch) {
             res.status(400).json({ msg: "Invalid credentials" });
             return
         }
-        const token = jwt.sign({ userId: user._id }, JWT_SECRET, { expiresIn: '1d'});
-        res.json({token});
+        const token = jwt.sign({ userId: user._id }, JWT_SECRET, { expiresIn: '1d' });
+        res.json({
+            token,
+            user:{
+                id: user._id,
+                username: user.username,
+                email: user.email
+            }
+        });
+        console.log("login successful")
     } catch (err) {
-        res.status(500).json({ msg: 'Server error'});
+        res.status(500).json({ msg: 'Server error' });
     }
 };
