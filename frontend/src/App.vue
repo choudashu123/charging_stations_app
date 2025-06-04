@@ -1,5 +1,5 @@
 <template>
-  <div id="app" class="min-h-screen flex flex-col bg-gray-50 text-gray-800">
+  <div id="app" class="min-h-screen flex flex-col bg-green-100 text-gray-800">
     <!-- Header -->
     <header class="bg-green-600 text-white px-6 py-4 shadow-md sticky top-0 z-50">
       <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4">
@@ -60,7 +60,7 @@ const route = useRoute();
 
 const logout = () => {
   auth.logout();
-  router.push('/login');
+  router.push('/auth');
 };
 
 const isAuthenticated = computed(() => !!auth.token);

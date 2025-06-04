@@ -1,5 +1,5 @@
 <template>
-  <div class="max-w-5xl mx-auto p-6 space-y-6">
+  <div class="max-w-5xl bg-green-100 mx-auto p-6 space-y-6">
     <h1 class="text-3xl font-bold text-purple-800">Welcome, {{ auth.user?.username }}</h1>
     <h2 class="text-xl font-semibold text-gray-700">Charging Stations</h2>
 
@@ -130,7 +130,7 @@
             </button>
             <button
               type="submit"
-              class="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700"
+              class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
             >
               {{ editing ? 'Update' : 'Add' }}
             </button>
@@ -141,7 +141,7 @@
 
     <!-- Floating Add Button -->
     <button
-      class="fixed bottom-6 right-6 bg-green-600 text-white w-14 h-14 rounded-full shadow-lg hover:bg-purple-700 text-2xl"
+      class="fixed bottom-6 right-6 bg-green-600 text-white w-14 h-14 rounded-full shadow-lg hover:bg-green-700 text-2xl"
       @click="showForm = true"
       title="Add Charger"
     >

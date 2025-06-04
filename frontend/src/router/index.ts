@@ -4,12 +4,19 @@ import { createRouter, createWebHistory } from 'vue-router';
 import Dashboard from '../views/Dashboard.vue';
 
 const routes = [
-    {path: '/', redirect: '/dashboard'},
+    {path: '/', redirect: () =>{
+    const auth = useAuthStore();
+    return auth.token ? '/dashboard' : '/auth' 
+    }},
     // {path: '/login',name: 'Login', component: Login},
     // {path: '/register', name: 'Register', component: Register},
     {path: '/dashboard', name: 'Dashboard', component: Dashboard, meta: { requiresAuth: true }},
     {path: '/map', component: Map},
-    {path: '/auth', name: 'Auth', component: AuthTabs}
+    {path: '/auth', name: 'Auth', component: AuthTabs, meta: {guestOnly: true}},
+    {
+    path: '/:pathMatch(.*)*',
+    redirect: '/dashboard',
+  },
 ]
 const router = createRouter({
     history: createWebHistory(),
@@ -24,6 +31,9 @@ router.beforeEach((to, _, next) => {
   const auth = useAuthStore();
   if (to.meta.requiresAuth && !auth.token) {
     next('/login');
+  }
+  if (to.meta.guestOnly && auth.user){
+    return next('/dashboard')
   } else {
     next();
   }

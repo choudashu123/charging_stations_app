@@ -3,13 +3,13 @@
     <div class="flex justify-around mb-6 border-b pb-2">
       <button
         @click="activeTab = 'login'"
-        :class="['px-4 py-2 font-semibold', activeTab === 'login' ? 'text-purple-700 border-b-2 border-purple-700' : 'text-gray-500']"
+        :class="['px-4 py-2 font-semibold', activeTab === 'login' ? 'text-green-700 border-b-2 border-green-700' : 'text-gray-500']"
       >
         Login
       </button>
       <button
         @click="activeTab = 'register'"
-        :class="['px-4 py-2 font-semibold', activeTab === 'register' ? 'text-purple-700 border-b-2 border-purple-700' : 'text-gray-500']"
+        :class="['px-4 py-2 font-semibold', activeTab === 'register' ? 'text-green-700 border-b-2 border-green-700' : 'text-gray-500']"
       >
         Register
       </button>
@@ -17,25 +17,33 @@
 
     <!-- Login Form -->
     <form v-if="activeTab === 'login'" @submit.prevent="handleLogin">
-      <input
-        v-model="loginEmail"
-        type="email"
-        placeholder="Email"
-        required
-        class="w-full p-2 mb-4 border border-gray-300 rounded"
-      />
-      <input
-        v-model="loginPassword"
-        type="password"
-        placeholder="Password"
-        required
-        class="w-full p-2 mb-4 border border-gray-300 rounded"
-      />
-      <button type="submit" class="bg-purple-700 text-white py-2 px-4 rounded hover:bg-purple-800 transition w-full">
-        Login
-      </button>
-      <p v-if="loginError" class="text-red-600 mt-2">{{ loginError }}</p>
-    </form>
+  <input
+    v-model="loginEmail"
+    type="email"
+    placeholder="Email"
+    required
+    class="w-full p-2 mb-4 border border-gray-300 rounded"
+  />
+  <input
+    v-model="loginPassword"
+    type="password"
+    placeholder="Password"
+    required
+    class="w-full p-2 mb-4 border border-gray-300 rounded"
+  />
+  <button type="submit" class="bg-green-600 text-white py-2 px-4 rounded hover:bg-green-800 transition w-full">
+    {{ isDummyMode ? 'Test Application' : 'Login' }}
+  </button>
+  <div class="flex justify-center"><button
+    type="button"
+    @click="useDummyCredentials"
+    class="w-auto mt-3 bg-gray-200 text-md text-blue-600 hover:underline"
+  >
+    Test via Dummy Endpoint
+  </button></div>
+  
+  <p v-if="loginError" class="text-red-600 mt-2">{{ loginError }}</p>
+</form>
 
     <!-- Register Form -->
     <form v-else @submit.prevent="handleRegister">
@@ -67,7 +75,7 @@
         required
         class="w-full p-2 mb-4 border border-gray-300 rounded"
       />
-      <button type="submit" class="bg-purple-700 text-white py-2 px-4 rounded hover:bg-purple-800 transition w-full">
+      <button type="submit" class="bg-green-700 text-white py-2 px-4 rounded hover:bg-green-800 transition w-full">
         Register
       </button>
       <p v-if="registerError" class="text-red-600 mt-2">{{ registerError }}</p>
@@ -86,6 +94,14 @@ const router = useRouter();
 const auth = useAuthStore();
 
 const activeTab = ref<'login' | 'register'>('login');
+const isDummyMode = ref(false);
+
+const useDummyCredentials = () => {
+  loginEmail.value = 'dummy@test.com';
+  loginPassword.value = 'dummy123';
+  isDummyMode.value = true;
+};
+
 
 // Login refs
 const loginEmail = ref('');
