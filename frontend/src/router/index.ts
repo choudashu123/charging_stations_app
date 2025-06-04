@@ -1,14 +1,15 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import Login from '../views/Login.vue';
-import Register from '../views/Register.vue';
+// import Login from '../views/Login.vue';
+// import Register from '../views/Register.vue';
 import Dashboard from '../views/Dashboard.vue';
 
 const routes = [
     {path: '/', redirect: '/dashboard'},
-    {path: '/login',name: 'Login', component: Login},
-    {path: '/register', name: 'Register', component: Register},
+    // {path: '/login',name: 'Login', component: Login},
+    // {path: '/register', name: 'Register', component: Register},
     {path: '/dashboard', name: 'Dashboard', component: Dashboard, meta: { requiresAuth: true }},
-    {path: '/map', component: Map}
+    {path: '/map', component: Map},
+    {path: '/auth', name: 'Auth', component: AuthTabs}
 ]
 const router = createRouter({
     history: createWebHistory(),
@@ -17,6 +18,7 @@ const router = createRouter({
 
 import { useAuthStore } from '../store/auth';
 import Map from '../views/Map.vue';
+import AuthTabs from '../views/AuthTabs.vue';
 
 router.beforeEach((to, _, next) => {
   const auth = useAuthStore();
